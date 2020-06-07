@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import { Mutation, withQuery } from "react-apollo";
 import { Link } from 'react-router-dom';
+
 
 const ADD_LOGO = gql`
     mutation AddLogo(
@@ -13,7 +14,11 @@ const ADD_LOGO = gql`
         $borderRadius: Int!,
         $borderWidth: Int!,
         $padding: Int!,
-        $margin: Int!) {
+        $margin: Int!,
+        $width: Int!,
+        $height: Int!,
+        $textList: [texts!]
+        ) {
         addLogo(
             text: $text,
             color: $color,
@@ -23,7 +28,11 @@ const ADD_LOGO = gql`
             borderRadius: $borderRadius,
             borderWidth: $borderWidth,
             padding: $padding,
-            margin: $margin) {
+            margin: $margin,
+            width: $width,
+            height: $height,
+            textList: $textList
+            ) {
             _id
         }
     }
@@ -33,26 +42,77 @@ const ADD_LOGO = gql`
 //While creating, can see how logo changes
 
 class CreateLogoScreen extends Component {
+    
     state={
         ncolor:"black",
         ntext: "gologolo",
         nfontSize: 10,
-        nbackgroundColor: "black",
+        nbackgroundColor: "white",
         nborderColor: "black",
         nborderRadius: 1,
         nborderWidth: 1,
         npadding: 1,
-        nmargin: 1
+        nmargin: 1,
+        nwidth: 1,
+        nheight:1,
+        ntextList :[]
     }
+    // handleCanvas = (canvas) => {
+  
+        
+    //     canvas.width = 200;
+    //     canvas.height = 200;
+     
+    //     const ctx = canvas.getContext('2d');
+     
+        
+    //     ctx.fillStyle = "white";
+    //     ctx.textAlign="center";
+    //     ctx.fillText(this.state.ntext,50,80);
+        
+    //    }
+       componentDidMount(){
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        //ctx.fillText(this.state.ntext,50,80);
+       }
     handleColorChange=(e)=>{
+        
         this.setState({
             ncolor:e.target.value
+            
         })
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var t =document.getElementById("textinput");
+        ctx.fillStyle = t.value;
+        ctx.fillText(this.state.ntext,50,80);
+        
     }
     handleTextChange=(e)=>{
+        
+        // var newtextList = [];
+        // newtextList.push(e.target.value);
+        this.setState({
+            ntext:e.target.value,
+            ntextList: [e.target.value]
+        })
+        
+    }
+    addText=(e)=>{
         this.setState({
             ntext:e.target.value
         })
+        this.setState({
+            ncolor:e.target.value   
+        })
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var co =document.getElementById("colorinput");
+        var t =document.getElementById("textinput");
+        ctx.fillStyle = co.value;
+        ctx.fillText(t.value, 150, 10);
+        console.log(t.value);
     }
     handleBackgroundColorChange=(e)=>{
         this.setState({
@@ -89,9 +149,19 @@ class CreateLogoScreen extends Component {
             nmargin:e.target.value
         })
     }
+    handleWidthChange=(e)=>{
+        this.setState({
+            nwidth:e.target.value
+        })
+    }
+    handleHeightChange=(e)=>{
+        this.setState({
+            nheight:e.target.value
+        })
+    }
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin;
-        
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, textList;
+        textList=[];
         return (
             <Mutation mutation={ADD_LOGO} onCompleted={() => this.props.history.push('/')}>
                 {(addLogo, { loading, error }) => (
@@ -111,7 +181,10 @@ class CreateLogoScreen extends Component {
                                     addLogo({ variables: { text: text.value, color: color.value, fontSize: parseInt(fontSize.value),
                                          backgroundColor: backgroundColor.value, borderColor: borderColor.value,
                                          borderRadius:parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value),
-                                         padding:parseInt(padding.value), margin:parseInt(margin.value)} });
+                                         padding:parseInt(padding.value), margin:parseInt(margin.value),
+                                         width:parseInt(width.value), height : parseInt(height.value),
+                                         textList: textList
+                                        } });
                                     text.value = "";
                                     color.value = "";
                                     fontSize.value = "";
@@ -121,17 +194,25 @@ class CreateLogoScreen extends Component {
                                     borderWidth.value = "";
                                     padding.value ="";
                                     margin.value = "";
+                                    width.value = "";
+                                    height.value = "";
+                                    textList = [];
                                 }}>
                                     <div className="form-group">
                                         <label htmlFor="text">Text:</label>
-                                        <input type="text" onChange={this.handleTextChange}
+                                        <input type="text" id="textinput"
+                                         onChange={this.handleTextChange}
                                          className="form-control" name="text" ref={node => {
                                             text = node;
+                                            textList[0] = node;
+                                            console.log("checking");
                                         }} placeholder="Text" />
+                                        <button onClick={this.addText}>Add Text</button>
                                     </div>
+                                    
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
-                                        <input type="color" onChange={this.handleColorChange}
+                                        <input type="color" id="colorinput" onChange={this.handleColorChange}
                                          className="form-control" name="color" ref={node => {
                                             color = node;
                                         }} placeholder="Color"/>  
@@ -185,6 +266,20 @@ class CreateLogoScreen extends Component {
                                             margin = node;
                                         }} placeholder="margin" />
                                     </div>
+                                    <div className="form-group">
+                                        <label htmlFor="width">Width Size:</label>
+                                        <input type="number" onChange={this.handleWidthChange}
+                                         className="form-control" name="width" ref={node => {
+                                            width = node;
+                                        }} placeholder="width" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="height">Height Size:</label>
+                                        <input type="number" onChange={this.handleHeightChange}
+                                         className="form-control" name="height" ref={node => {
+                                            height = node;
+                                        }} placeholder="margin" />
+                                    </div>
                                     <button type="submit" className="btn btn-success">Submit</button>
                                 </form>
                                 {loading && <p>Loading...</p>}
@@ -198,6 +293,19 @@ class CreateLogoScreen extends Component {
                                     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
                                     text: this.state.ntext
                                     }}>{this.state.ntext}</div>
+                                    <html>
+                                        <body>
+                                    <canvas id="myCanvas"  style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
+                                    fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
+                                    borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
+                                    padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
+                                    }}> </canvas>
+                                    
+                                        <script>
+                                        alert("asd");
+                                        </script>
+                                    </body>
+                                    </html>
                             </div>
                             </div>
                         </div>

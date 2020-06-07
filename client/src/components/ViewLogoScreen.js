@@ -31,9 +31,26 @@ const DELETE_LOGO = gql`
 `;
 //show all properties of logo
 class ViewLogoScreen extends Component {
-
+    handleCanvas = (canvas) => {
+  
+        
+        canvas.width = 500;
+        canvas.height = 700;
+     
+        const ctx = canvas.getContext('2d');
+     
+        
+        ctx.fillStyle = 'purple';
+        ctx.textAlign="center";
+        ctx.fillText("asd",200,80);
+        
+       }
+    
     render() {
+        
+        // var thisIsMyCopy = ' <canvas   id= "myCanvas"  width="680" height="400" style="background-color:black; border-style:solid;border-color:rgb(255,255,0);"></canvas>';
         return (
+            
             <Query pollInterval={500} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
@@ -52,8 +69,8 @@ class ViewLogoScreen extends Component {
                                 <div class="row"> 
                                 <div class="col-6"> 
                                 <div className="panel-body">
+                                
                                     <dl>
-                                        
                                         <dt>Text:</dt>
                                         <dd>{data.logo.text}</dd>
                                         <dt>Color:</dt>
@@ -99,15 +116,38 @@ class ViewLogoScreen extends Component {
                                                 margin:data.logo.margin+"px", borderStyle:"solid",
                                                 text: data.logo.text
                                                 }}>
-                                                    {data.logo.text}</div> </div> 
+                                                    {data.logo.text}
+                                                    
+                                                </div>
+                                                {/* <canvas id="myCanvas" ref={this.handleCanvas} style={{ backgroundColor:data.logo.backgroundColor}}> </canvas>
+                                                <script>
+                                                var canvas = document.getElementById("myCanvas");
+                                                console.log(canvas);
+                                                var ctx = canvas.getContext("2d");
+                                                ctx.font = "18pt Rockwell";
+                                                console.log(ctx);
+                                                ctx.fillText("Hello, there!", 110, 110);
+                                                ctx.fillStyle = "#00FFFF";
+                                                ctx.fillText("Bye!!", 130, 130);
+                                                </script> */}
+                                    
+                                    </div>  
+                                      
                                 </div>
                             </div>
                         </div>
+                        
                     );
+                    
+                    
                 }}
             </Query>
+            
         );
+        
     }
+    
 }
+
 
 export default ViewLogoScreen;

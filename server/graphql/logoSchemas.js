@@ -8,8 +8,20 @@ var GraphQLString = require('graphql').GraphQLString;
 var GraphQLInt = require('graphql').GraphQLInt;
 var GraphQLDate = require('graphql-date');
 var LogoModel = require('../models/Logo');
+var GraphQLInputObjectType = require('graphql').GraphQLInputObjectType;
 
 //add all properties of logo
+
+var textType = new GraphQLObjectType({
+    name: 'texts',
+    fields: function () {
+        return {
+            textContent:{
+                type: GraphQLString
+            }
+        }
+    }
+});
 var logoType = new GraphQLObjectType({
     name: 'logo',
     fields: function () {
@@ -46,6 +58,15 @@ var logoType = new GraphQLObjectType({
             },
             lastUpdate: {
                 type: GraphQLDate
+            },
+            width: {
+                type: GraphQLInt
+            },
+            height: {
+                type: GraphQLInt
+            },
+            textList:{
+                type: GraphQLList(textType)
             }
         }
     }
@@ -84,8 +105,17 @@ var queryType = new GraphQLObjectType({
         }
     }
 });
+const textItemInput = new GraphQLInputObjectType({
+    name: 'textItemInput',
+    fields: function(){
+        return{
+            textContent:{type: GraphQLString}
+        }
+    }
+})
 //add logo and edit logo
 var mutation = new GraphQLObjectType({
+    
     name: 'Mutation',
     fields: function () {
         return {
@@ -101,6 +131,7 @@ var mutation = new GraphQLObjectType({
                     fontSize: {
                         type: new GraphQLNonNull(GraphQLInt)
                     },
+                    
                     backgroundColor: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
@@ -118,6 +149,15 @@ var mutation = new GraphQLObjectType({
                     },
                     margin: {
                         type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    width: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    height: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    textList: {
+                        type: new GraphQLList(textItemInput)
                     }
                 },
                 resolve: function (root, params) {
@@ -162,17 +202,32 @@ var mutation = new GraphQLObjectType({
                     },
                     margin: {
                         type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    width: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    height: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    textList:{
+                        type: new GraphQLList(textType)
                     }
                 },
                 resolve(root, params) {
+                    
                     return LogoModel.findByIdAndUpdate(params.id, { text: params.text, color: params.color, fontSize: params.fontSize,
                          backgroundColor:params.backgroundColor,borderColor:params.borderColor, borderRadius: params.borderRadius,
                          borderWidth: params.borderWidth, padding: params.padding, 
-                         margin:params.margin, lastUpdate: new Date() }, function (err) {
+                         margin:params.margin,
+                         width:params.width,
+                         height:params.height,
+                         textList: params.textList,
+                         lastUpdate: new Date() }, function (err) {
                         if (err) return next(err);
                     });
                 }
             },
+            
             removeLogo: {
                 type: logoType,
                 args: {
