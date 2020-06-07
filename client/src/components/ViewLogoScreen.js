@@ -31,34 +31,58 @@ const DELETE_LOGO = gql`
 `;
 //show all properties of logo
 class ViewLogoScreen extends Component {
-    handleCanvas = (canvas) => {
-  
+    state={
+        ncolor:"black",
+        ntext: "gologolo",
+        nfontSize: 10,
+        nbackgroundColor: "blue",
+        nborderColor: "black",
+        nborderRadius: 1,
+        nborderWidth: 1,
+        npadding: 1,
+        nmargin: 1,
+        nwidth: 1,
+        nheight:1,
+        //ntextList :[]
+    }
+    // componentDidMount(){
+    //     // var canvas = document.getElementById('myCanvas');
+    //     //  var context = canvas.getContext('2d');
+      
+    //     // //this.context.fillText("sd",20, 20);
+    //     // context.fillText(this.state.ntext,50,80);
+    //     const canvas = ReactDOM.findDOMNode(this.refs.canvas); 
+    //     const context = canvas.getContext('2d');
+    // }
+   
+    constructor(props) {
+        super(props);
+        this.canvasRef = React.createRef();
+      }
+      componentDidUpdate() {
+        const canvas = document.getElementById('myCanvas');
         
-        canvas.width = 500;
-        canvas.height = 700;
-     
-        const ctx = canvas.getContext('2d');
-     
+        //const canvas = this.canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        ctx.fillText("ldft",60,80);
         
-        ctx.fillStyle = 'purple';
-        ctx.textAlign="center";
-        ctx.fillText("asd",200,80);
-        
-       }
+      }
+    
     
     render() {
-        
-        // var thisIsMyCopy = ' <canvas   id= "myCanvas"  width="680" height="400" style="background-color:black; border-style:solid;border-color:rgb(255,255,0);"></canvas>';
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, textList;
+        //var thisIsMyCopy = ' <canvas   id= "myCanvas"  width="680" height="400" style="background-color:black; border-style:solid;border-color:rgb(255,255,0);"></canvas>';
         return (
             
             <Query pollInterval={500} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
                     if (error) return `Error! ${error.message}`;
-
                     return (
                         <div className="container">
-                            
+                            <div>
+        
+      </div>
                             <div className="panel panel-default">
                                 <div className="panel-heading">
                                     <h4><Link to="/">Home</Link></h4>
@@ -110,7 +134,8 @@ class ViewLogoScreen extends Component {
                                     </Mutation>
                                 </div>
                                 </div> 
-                                <div class="col-6"> <div style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
+                                <div class="col-6"> 
+                                                <div style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
                                                 borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
                                                 borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
                                                 margin:data.logo.margin+"px", borderStyle:"solid",
@@ -119,19 +144,25 @@ class ViewLogoScreen extends Component {
                                                     {data.logo.text}
                                                     
                                                 </div>
-                                                {/* <canvas id="myCanvas" ref={this.handleCanvas} style={{ backgroundColor:data.logo.backgroundColor}}> </canvas>
-                                                <script>
-                                                var canvas = document.getElementById("myCanvas");
-                                                console.log(canvas);
-                                                var ctx = canvas.getContext("2d");
-                                                ctx.font = "18pt Rockwell";
-                                                console.log(ctx);
-                                                ctx.fillText("Hello, there!", 110, 110);
-                                                ctx.fillStyle = "#00FFFF";
-                                                ctx.fillText("Bye!!", 130, 130);
-                                                </script> */}
-                                    
-                                    </div>  
+                                                
+                                                <html>
+                                                <body>
+                                                <canvas id="myCanvas" 
+                                                
+                                                ref="{(c) => {this.context = c.getContext('2d') } }"
+                                                 style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
+                                                borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
+                                                borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
+                                                margin:data.logo.margin+"px", borderStyle:"solid",
+                                                }}> 
+                                                </canvas>
+                                                
+                                                <script>   
+                                                this.context.fillText("23",50,40)
+                                                     </script>
+                                                </body>
+                                                </html>
+                                </div>  
                                       
                                 </div>
                             </div>

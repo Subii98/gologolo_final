@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { Mutation, withQuery } from "react-apollo";
 import { Link } from 'react-router-dom';
 
-
+//$textList: [texts!]
 const ADD_LOGO = gql`
     mutation AddLogo(
         $text: String!,
@@ -17,7 +17,7 @@ const ADD_LOGO = gql`
         $margin: Int!,
         $width: Int!,
         $height: Int!,
-        $textList: [texts!]
+        
         ) {
         addLogo(
             text: $text,
@@ -31,7 +31,7 @@ const ADD_LOGO = gql`
             margin: $margin,
             width: $width,
             height: $height,
-            textList: $textList
+            
             ) {
             _id
         }
@@ -55,7 +55,7 @@ class CreateLogoScreen extends Component {
         nmargin: 1,
         nwidth: 1,
         nheight:1,
-        ntextList :[]
+        
     }
     // handleCanvas = (canvas) => {
   
@@ -74,7 +74,7 @@ class CreateLogoScreen extends Component {
        componentDidMount(){
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
-        //ctx.fillText(this.state.ntext,50,80);
+        ctx.fillText(this.state.ntext,50,80);
        }
     handleColorChange=(e)=>{
         
@@ -204,8 +204,7 @@ class CreateLogoScreen extends Component {
                                          onChange={this.handleTextChange}
                                          className="form-control" name="text" ref={node => {
                                             text = node;
-                                            textList[0] = node;
-                                            console.log("checking");
+                                            
                                         }} placeholder="Text" />
                                         <button onClick={this.addText}>Add Text</button>
                                     </div>
@@ -294,16 +293,13 @@ class CreateLogoScreen extends Component {
                                     text: this.state.ntext
                                     }}>{this.state.ntext}</div>
                                     <html>
-                                        <body>
+                                    <body>
                                     <canvas id="myCanvas"  style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
                                     fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
                                     borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
                                     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
                                     }}> </canvas>
                                     
-                                        <script>
-                                        alert("asd");
-                                        </script>
                                     </body>
                                     </html>
                             </div>
