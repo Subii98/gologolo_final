@@ -27,6 +27,9 @@ var LogoSchema = new mongoose.Schema({
   height:{type:Number, min:1},
   xpos:{type:Number, min:1},
   ypos: {type:Number, min:1},
+  images:String,
+  imxpos:{type:Number, min:1},
+  imypos: {type:Number, min:1},
   lastUpdate: { type: Date, default: Date.now },
   
      

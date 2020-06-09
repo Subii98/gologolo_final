@@ -18,7 +18,10 @@ const ADD_LOGO = gql`
         $width: Int!,
         $height: Int!,
         $xpos: Int!,
-        $ypos: Int!
+        $ypos: Int!,
+        $images:String!,
+        $imxpos: Int!,
+        $imypos:Int!,
         ) {
         addLogo(
             text: $text,
@@ -33,7 +36,10 @@ const ADD_LOGO = gql`
             width: $width,
             height: $height,
             xpos: $xpos,
-            ypos : $ypos
+            ypos : $ypos,
+            images : $images,
+            imxpos:$imxpos,
+            imypos:$imypos
             ) {
             _id
         }
@@ -47,77 +53,59 @@ class CreateLogoScreen extends Component {
     
     state={
         ncolor:"black",
-        ntext: "gologolo",
+        ntext: "",
         nfontSize: 10,
-        nbackgroundColor: "white",
+        nbackgroundColor: "black",
         nborderColor: "black",
         nborderRadius: 1,
         nborderWidth: 1,
         npadding: 1,
         nmargin: 1,
-        nwidth: 1,
-        nheight:1,
+        nwidth: 300,
+        nheight:200,
         nxpos :10,
-        nypos : 10
-        
+        nypos : 10,
+        nimages:"",
+        nimxpos:1,
+        nimypos:1
     }
-    // handleCanvas = (canvas) => {
-  
-        
-    //     canvas.width = 200;
-    //     canvas.height = 200;
-     
-    //     const ctx = canvas.getContext('2d');
-     
-        
-    //     ctx.fillStyle = "white";
-    //     ctx.textAlign="center";
-    //     ctx.fillText(this.state.ntext,50,80);
-        
-    //    }
-       componentDidMount(){
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        ctx.fillText(this.state.ntext,50,80);
-       }
+    
+    componentDidMount() {
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.font="10px Arial";
+        ctx.fillStyle=this.state.ncolor;
+    }
+
     handleColorChange=(e)=>{
         
         this.setState({
             ncolor:e.target.value
-            
         })
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        var t =document.getElementById("textinput");
-        ctx.fillStyle = t.value;
-        ctx.fillText(this.state.ntext,50,80);
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var t =document.getElementById("color");
+        ctx.fillStyle = e.target.value;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
         
     }
     handleTextChange=(e)=>{
         
-        // var newtextList = [];
-        // newtextList.push(e.target.value);
+        
         this.setState({
             ntext:e.target.value,
-            ntextList: [e.target.value]
         })
-        
-    }
-    addText=(e)=>{
-        this.setState({
-            ntext:e.target.value
-        })
-        this.setState({
-            ncolor:e.target.value   
-        })
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
         var co =document.getElementById("colorinput");
         var t =document.getElementById("textinput");
         ctx.fillStyle = co.value;
-        ctx.fillText(t.value, 150, 10);
-        console.log(t.value);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(t.value, this.state.nxpos, this.state.nypos);
+        
     }
+   
     handleBackgroundColorChange=(e)=>{
         this.setState({
             nbackgroundColor:e.target.value
@@ -127,6 +115,11 @@ class CreateLogoScreen extends Component {
         this.setState({
             nfontSize:e.target.value
         })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.font = e.target.value+'px'+ ' Arial';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
     }
     handleBorderColorChange=(e)=>{
         this.setState({
@@ -163,18 +156,64 @@ class CreateLogoScreen extends Component {
             nheight:e.target.value
         })
     }
+    
     handleXposChange=(e)=>{
         this.setState({
             nxpos:e.target.value
         })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var colorin =document.getElementById("colorinput");
+        var textin =document.getElementById("textinput");
+        var yin =document.getElementById("ypos");
+        ctx.fillStyle = colorin.value;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(this.state.ntext, e.target.value, this.state.nypos);
     }
     handleYposChange=(e)=>{
         this.setState({
             nypos:e.target.value
         })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var colorin =document.getElementById("colorinput");
+        ctx.fillStyle = colorin.value;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(this.state.ntext,this.state.nxpos,e.target.value);
     }
+    handleImxposChange=(e)=>{
+        this.setState({
+            nimxpos:e.target.value
+        })
+    }
+    handleImyposChange=(e)=>{
+        this.setState({
+            nimypos:e.target.value
+        })
+    }
+    handleImage=(e)=>{
+        
+        const addimage = new Image();
+        addimage.src = URL.createObjectURL(e.target.files[0]);
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        this.setState({
+            nimages:URL.createObjectURL(e.target.files[0])
+        })
+        var x= this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,20,20,x,y)};
+        // const addimage = new Image(); 
+        // addimage.src =e.target.files[0];
+        // var c = document.getElementById("myCanvas");
+        // var ctx = c.getContext("2d");
+        // var x= this.state.nimxpos;
+        // var y= this.state.nimypos;
+        // addimage.onload = function(){ctx.drawImage(addimage,20,20,x,y)};
+    }
+    
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos;
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos, images,imxpos,imypos;
         
         return (
             <Mutation mutation={ADD_LOGO} onCompleted={() => this.props.history.push('/')}>
@@ -197,7 +236,8 @@ class CreateLogoScreen extends Component {
                                          borderRadius:parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value),
                                          padding:parseInt(padding.value), margin:parseInt(margin.value),
                                          width:parseInt(width.value), height : parseInt(height.value),
-                                         xpos:parseInt(xpos.value), ypos:parseInt(ypos.value),
+                                         xpos:parseInt(xpos.value), ypos:parseInt(ypos.value),images:images.value, imxpos:parseInt(imxpos.value),
+                                         imypos:parseInt(imypos.value)
                                         } });
                                     text.value = "";
                                     color.value = "";
@@ -212,6 +252,9 @@ class CreateLogoScreen extends Component {
                                     height.value = "";
                                     xpos.value="";
                                     ypos.value="";
+                                    images.value="";
+                                    imxpos.value="";
+                                    imxpos.value="";
                                     
                                 }}>
                                     <div className="form-group">
@@ -222,91 +265,112 @@ class CreateLogoScreen extends Component {
                                             text = node;
                                             
                                         }} placeholder="Text" />
-                                        <button onClick={this.addText}>Add Text</button>
+                                        
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="xpos">xpos:</label>
-                                        <input type="number" onChange={this.handleXposChange}
+                                        <input type="number" id="xpos" onChange={this.handleXposChange}
                                          className="form-control" name="xpos" ref={node => {
                                             xpos = node;
                                         }} placeholder="xpos" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="ypos">ypos:</label>
-                                        <input type="number" onChange={this.handleYposChange}
+                                        <input type="number" id="ypos" onChange={this.handleYposChange}
                                          className="form-control" name="ypos" ref={node => {
                                             ypos = node;
                                         }} placeholder="ypos" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
-                                        <input type="color" id="colorinput" onChange={this.handleColorChange}
+                                        <input type="color" id="color" id="colorinput" onChange={this.handleColorChange}
                                          className="form-control" name="color" ref={node => {
                                             color = node;
                                         }} placeholder="Color"/>  
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="backgroundColor">Background color:</label>
-                                        <input type="color" onChange={this.handleBackgroundColorChange}
+                                        <input type="color" id="backgroundColor" onChange={this.handleBackgroundColorChange}
                                         className="form-control" name="backgroundColor" ref={node => {
                                             backgroundColor = node;
                                         }} placeholder="backgroundColor" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="fontSize">Font Size:</label>
-                                        <input type="number" onChange={this.handleFontSizeChange}
+                                        <input type="number" id="fontSize" onChange={this.handleFontSizeChange}
                                          className="form-control" name="fontSize" ref={node => {
                                             fontSize = node;
                                         }} placeholder="Font Size" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderColor">Border Color:</label>
-                                        <input type="color" onChange={this.handleBorderColorChange}
+                                        <input type="color" id = "borderColor" onChange={this.handleBorderColorChange}
                                          className="form-control" name="borderColor" ref={node => {
                                             borderColor = node;
                                         }} placeholder="borderColor" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderRadius">Border Radius:</label>
-                                        <input type="number" onChange={this.handleBorderRadiusChange}
+                                        <input type="number" id="borderRadius" onChange={this.handleBorderRadiusChange}
                                         className="form-control" name="borderRadius" ref={node => {
                                             borderRadius = node;
                                         }} placeholder="Border Radius" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="borderWidth">Border Width:</label>
-                                        <input type="number" onChange={this.handleBorderWidthChange}
+                                        <input type="number" id="borderWidth" onChange={this.handleBorderWidthChange}
                                         className="form-control" name="borderWidth" ref={node => {
                                             borderWidth = node;
                                         }} placeholder="Border Width" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="padding">Padding:</label> 
-                                        <input type="number" onChange={this.handlePaddingChange}
+                                        <input type="number" id = "padding" onChange={this.handlePaddingChange}
                                          className="form-control" name="padding" ref={node => {
                                             padding = node;
                                         }} placeholder="padding" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="margin">Margin Size:</label>
-                                        <input type="number" onChange={this.handleMarginChange}
+                                        <input type="number" id="margin" onChange={this.handleMarginChange}
                                          className="form-control" name="margin" ref={node => {
                                             margin = node;
                                         }} placeholder="margin" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="width">Width Size:</label>
-                                        <input type="number" onChange={this.handleWidthChange}
+                                        <input type="number" id="width" onChange={this.handleWidthChange}
                                          className="form-control" name="width" ref={node => {
                                             width = node;
                                         }} placeholder="width" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="height">Height Size:</label>
-                                        <input type="number" onChange={this.handleHeightChange}
+                                        <input type="number" id="height" onChange={this.handleHeightChange}
                                          className="form-control" name="height" ref={node => {
                                             height = node;
                                         }} placeholder="margin" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="imxpos">Image width:</label>
+                                        <input type="number" id="imxpos" onChange={this.handleImxposChange}
+                                         className="form-control" name="imxpos" ref={node => {
+                                            imxpos = node;
+                                        }} placeholder="nimxpos" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="imypos">Image height:</label>
+                                        <input type="number" id="imypos" onChange={this.handleImyposChange}
+                                         className="form-control" name="imypos" ref={node => {
+                                            imypos = node;
+                                        }} placeholder="imypos" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="images">Image: </label>
+                                        <input type="file" id="images" name="images" ref={
+                                            node=> { images = node;}}
+                                            onChange = {this.handleImage}
+                                                />
                                     </div>
                                     <button type="submit" className="btn btn-success">Submit</button>
                                 </form>
@@ -315,18 +379,14 @@ class CreateLogoScreen extends Component {
                             </div>
                             </div>
                             <div class="col-6">
-                            <div style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
-                                    fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
-                                    borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
-                                    padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
-                                    text: this.state.ntext
-                                    }}>{this.state.ntext}</div>
                                     <html>
                                     <body>
-                                    <canvas id="myCanvas"  style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
+                                    <canvas id="myCanvas" width={this.state.nwidth} height={this.state.nheight}
+                                     style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
                                     fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
                                     borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
                                     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
+                                    // width:this.state.nwidth, height:this.state.nheight
                                     }}> </canvas>
                                     
                                     </body>

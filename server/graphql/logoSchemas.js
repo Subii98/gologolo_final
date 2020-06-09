@@ -110,6 +110,15 @@ var logoType = new GraphQLObjectType({
             },
             ypos:{
                 type : GraphQLInt
+            },
+            images:{
+                type:GraphQLString
+            },
+            imxpos:{
+                type : GraphQLInt
+            },
+            imypos:{
+                type : GraphQLInt
             }
             // textList:{
             //     type: GraphQLList(textItemType)
@@ -200,6 +209,15 @@ var mutation = new GraphQLObjectType({
                     },
                     ypos: {
                         type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    images:{
+                        type: new GraphQLNonNull(GraphQLString)
+                    },
+                    imxpos:{
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    imypos:{
+                        type: new GraphQLNonNull(GraphQLInt)
                     }
                     // textList: {
                     //     type: new GraphQLList(textItemInput)
@@ -263,6 +281,15 @@ var mutation = new GraphQLObjectType({
                     ypos: {
                         type: new GraphQLNonNull(GraphQLInt)
                     },
+                    images:{
+                        type: new GraphQLNonNull(GraphQLString)
+                    },
+                    imxpos:{
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    imypos:{
+                        type: new GraphQLNonNull(GraphQLInt)
+                    }
                 },
                 resolve(root, params) {
                     
@@ -274,6 +301,9 @@ var mutation = new GraphQLObjectType({
                          height:params.height,
                          xpos:params.xpos,
                          ypos: params.ypos,
+                         images:params.images,
+                         imxpos: params.imxpos,
+                         imypos:params.imypos,
                          //textList: params.textList,
                          lastUpdate: new Date() }, function (err) {
                         if (err) return next(err);
