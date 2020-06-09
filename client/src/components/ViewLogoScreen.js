@@ -55,18 +55,18 @@ class ViewLogoScreen extends Component {
     //     const context = canvas.getContext('2d');
     // }
    
-    constructor(props) {
-        super(props);
-        this.canvasRef = React.createRef();
-      }
-      componentDidUpdate() {
-        const canvas = document.getElementById('myCanvas');
+    // constructor(props) {
+    //     super(props);
+    //     this.canvasRef = React.createRef();
+    //   }
+    //   componentDidUpdate() {
+    //     const canvas = document.getElementById('myCanvas');
         
-        //const canvas = this.canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        ctx.fillText("ldft",60,80);
+    //     //const canvas = this.canvasRef.current;
+    //     const ctx = canvas.getContext("2d");
+    //     ctx.fillText("ldft",60,80);
         
-      }
+    //   }
     
     
     render() {

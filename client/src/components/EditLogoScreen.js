@@ -18,6 +18,8 @@ const GET_LOGO = gql`
             margin
             width
             height
+            xpos
+            ypos
         }
     }
 `;
@@ -35,7 +37,9 @@ const UPDATE_LOGO = gql`
         $padding: Int!,
         $margin:Int!,
         $width: Int!,
-        $height: Int!
+        $height: Int!,
+        $xpos : Int!,
+        $ypos : Int!,
         ) {
             updateLogo(
                 id: $id,
@@ -49,7 +53,9 @@ const UPDATE_LOGO = gql`
                 padding:$padding,
                 margin:$margin,
                 width:$width,
-                height:$height
+                height:$height,
+                xpos:$xpos,
+                ypos:$ypos
                 ) {
                     lastUpdate
                 }
@@ -59,6 +65,16 @@ const UPDATE_LOGO = gql`
 // Can change all information about logos
 // Show logos and how it changes while editing
 class EditLogoScreen extends Component {
+    // constructor(props) {
+    //     super(props);
+    //     this.canvas = React.createRef();
+    //     this.context = null // this will be initializaed in componentDidMount()
+    //   }
+    
+    //   componentDidMount(){
+        
+    //     this.context = this.canvas.getContext("2d")
+    //   }
     state={
         ncolor:"black",
         ntext: "gologolo",
@@ -70,14 +86,10 @@ class EditLogoScreen extends Component {
         npadding: 1,
         nmargin: 1,
         nwidth: 1,
-        nheight:1,   
+        nheight:1,  
+        nxpos :10,
+        nypos : 10 
     }
-
-    // componentDidMount(){
-    //     var c = document.getElementById("myCanvas");
-    //     var ctx = c.getContext("2d");
-    //     ctx.fillText("checking",50,80);
-    //    }
    
     
        handleColorChange=(e)=>{
@@ -171,7 +183,7 @@ class EditLogoScreen extends Component {
 
     render() {
         
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width,height;
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width,height, xpos, ypos;
         
         return (
             <Query query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
@@ -193,7 +205,7 @@ class EditLogoScreen extends Component {
                         width:data.logo.width + "px",
                         height: data.logo.height +"px"
                         }
-                        
+                    
                     return (
                         <Mutation mutation={UPDATE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push(`/`)}>
                             {(updateLogo, { loading, error }) => (
@@ -214,7 +226,8 @@ class EditLogoScreen extends Component {
                                                     fontSize: parseInt(fontSize.value), backgroundColor:backgroundColor.value, 
                                                     borderColor:borderColor.value, borderRadius:parseInt(borderRadius.value),
                                                     borderWidth:parseInt(borderWidth.value), padding:parseInt(padding.value), margin:parseInt(margin.value),
-                                                    width:parseInt(width.value), height:parseInt(height.value)
+                                                    width:parseInt(width.value), height:parseInt(height.value),
+                                                    xpos:parseInt(xpos.value), ypos:parseInt(ypos.value)
                                                 } });
                                                 text.value = "";
                                                 color.value = "";
@@ -227,6 +240,8 @@ class EditLogoScreen extends Component {
                                                 margin.value="";
                                                 width.value="";
                                                 height.value="";
+                                                xpos.value="";
+                                                ypos.value="";
                                             }}>
                                                 <div className="form-group">
                                                     <label htmlFor="text">Text:</label>
@@ -240,7 +255,30 @@ class EditLogoScreen extends Component {
                                                         //data.logo.text=node.value;
                                                     }} placeholder="Text" defaultValue={data.logo.text} />
                                                 </div>
-                                                
+                                                <div className="form-group">
+                                                    <label htmlFor="xpos">Xpos:</label>
+                                                    <input type="text" 
+                                                    //onChange={this.handleHeightChange}
+                                                    // onChange={() => {data.logo.height = height.value; 
+                                                    // this.setState({nheight:this.value});
+                                                    // this.setState({height: this.value})}} 
+                                                    className="form-control" name="xpos" ref={node => {
+                                                        xpos = node; 
+                                                       // data.logo.height=height.value;
+                                                    }} placeholder="xpos" defaultValue={data.logo.xpos} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label htmlFor="ypos">Ypos:</label>
+                                                    <input type="text" 
+                                                    //onChange={this.handleHeightChange}
+                                                    // onChange={() => {data.logo.height = height.value; 
+                                                    // this.setState({nheight:this.value});
+                                                    // this.setState({height: this.value})}} 
+                                                    className="form-control" name="ypos" ref={node => {
+                                                        ypos = node; 
+                                                       // data.logo.height=height.value;
+                                                    }} placeholder="ypos" defaultValue={data.logo.ypos} />
+                                                </div>
                                                 <div className="form-group">
                                                     <label htmlFor="color" >Color:</label>
                                                     <input type="color" id="colorinput"
@@ -375,16 +413,24 @@ class EditLogoScreen extends Component {
                                                 }}>
                                                 {data.logo.text}</div>  */}
                                                 
-                                    
+                                                {/* <canvas id="myCanvas"  style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
+                                                borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
+                                                borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
+                                                margin:data.logo.margin+"px", borderStyle:"solid",
+                                                text: data.logo.text
+                                                }}> </canvas>     */}
+                                                
                                     <html>
                                     <body>
-                                    <canvas id="myCanvas"  style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
+                                    
+                                    {/* <canvas id="myCanvas"  style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
                                                 borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
                                                 borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
                                                 margin:data.logo.margin+"px", borderStyle:"solid",
                                                 text: data.logo.text
                                                 }}> </canvas>
-                                    <canvas id="myCanvas"  
+                                                <canvas  draw={ctx => {ctx.fillText("DF",50,50)} }/> */}
+                                    <canvas id="myCanvas"  ref="myCanvas"
                                     // style={{color:this.state.ncolor, backgroundColor:document.getElementById("backColor"), 
                                     // fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
                                     // borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",

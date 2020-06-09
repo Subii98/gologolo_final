@@ -105,9 +105,15 @@ var logoType = new GraphQLObjectType({
             height: {
                 type: GraphQLInt
             },
-            textList:{
-                type: GraphQLList(textItemType)
+            xpos:{
+                type : GraphQLInt
+            },
+            ypos:{
+                type : GraphQLInt
             }
+            // textList:{
+            //     type: GraphQLList(textItemType)
+            // }
         }
     }
 });
@@ -189,6 +195,12 @@ var mutation = new GraphQLObjectType({
                     height: {
                         type: new GraphQLNonNull(GraphQLInt)
                     },
+                    xpos: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    ypos: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    }
                     // textList: {
                     //     type: new GraphQLList(textItemInput)
                     // }
@@ -245,6 +257,12 @@ var mutation = new GraphQLObjectType({
                     // textList:{
                     //     type: new GraphQLList(textType)
                     // }
+                    xpos: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
+                    ypos: {
+                        type: new GraphQLNonNull(GraphQLInt)
+                    },
                 },
                 resolve(root, params) {
                     
@@ -254,6 +272,8 @@ var mutation = new GraphQLObjectType({
                          margin:params.margin,
                          width:params.width,
                          height:params.height,
+                         xpos:params.xpos,
+                         ypos: params.ypos,
                          //textList: params.textList,
                          lastUpdate: new Date() }, function (err) {
                         if (err) return next(err);

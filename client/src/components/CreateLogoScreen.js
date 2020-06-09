@@ -17,7 +17,8 @@ const ADD_LOGO = gql`
         $margin: Int!,
         $width: Int!,
         $height: Int!,
-        
+        $xpos: Int!,
+        $ypos: Int!
         ) {
         addLogo(
             text: $text,
@@ -31,7 +32,8 @@ const ADD_LOGO = gql`
             margin: $margin,
             width: $width,
             height: $height,
-            
+            xpos: $xpos,
+            ypos : $ypos
             ) {
             _id
         }
@@ -55,6 +57,8 @@ class CreateLogoScreen extends Component {
         nmargin: 1,
         nwidth: 1,
         nheight:1,
+        nxpos :10,
+        nypos : 10
         
     }
     // handleCanvas = (canvas) => {
@@ -159,9 +163,19 @@ class CreateLogoScreen extends Component {
             nheight:e.target.value
         })
     }
+    handleXposChange=(e)=>{
+        this.setState({
+            nxpos:e.target.value
+        })
+    }
+    handleYposChange=(e)=>{
+        this.setState({
+            nypos:e.target.value
+        })
+    }
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, textList;
-        textList=[];
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos;
+        
         return (
             <Mutation mutation={ADD_LOGO} onCompleted={() => this.props.history.push('/')}>
                 {(addLogo, { loading, error }) => (
@@ -183,7 +197,7 @@ class CreateLogoScreen extends Component {
                                          borderRadius:parseInt(borderRadius.value), borderWidth: parseInt(borderWidth.value),
                                          padding:parseInt(padding.value), margin:parseInt(margin.value),
                                          width:parseInt(width.value), height : parseInt(height.value),
-                                         textList: textList
+                                         xpos:parseInt(xpos.value), ypos:parseInt(ypos.value),
                                         } });
                                     text.value = "";
                                     color.value = "";
@@ -196,7 +210,9 @@ class CreateLogoScreen extends Component {
                                     margin.value = "";
                                     width.value = "";
                                     height.value = "";
-                                    textList = [];
+                                    xpos.value="";
+                                    ypos.value="";
+                                    
                                 }}>
                                     <div className="form-group">
                                         <label htmlFor="text">Text:</label>
@@ -208,7 +224,20 @@ class CreateLogoScreen extends Component {
                                         }} placeholder="Text" />
                                         <button onClick={this.addText}>Add Text</button>
                                     </div>
-                                    
+                                    <div className="form-group">
+                                        <label htmlFor="xpos">xpos:</label>
+                                        <input type="number" onChange={this.handleXposChange}
+                                         className="form-control" name="xpos" ref={node => {
+                                            xpos = node;
+                                        }} placeholder="xpos" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="ypos">ypos:</label>
+                                        <input type="number" onChange={this.handleYposChange}
+                                         className="form-control" name="ypos" ref={node => {
+                                            ypos = node;
+                                        }} placeholder="ypos" />
+                                    </div>
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
                                         <input type="color" id="colorinput" onChange={this.handleColorChange}
