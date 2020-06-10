@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import gql from "graphql-tag";
 import { Mutation, withQuery } from "react-apollo";
 import { Link } from 'react-router-dom';
+import { saveAs } from 'file-saver';
 
 //$textList: [texts!]
 const ADD_LOGO = gql`
@@ -172,13 +173,19 @@ class CreateLogoScreen extends Component {
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        ctx.fillStyle = this.state.ncolor;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        canvas.width=e.target.value;
+        canvas.height =this.state.nheight;
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        var co =document.getElementById("colorinput");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        ctx.fillStyle = co.value;
+        ctx.fillText(t.value, xpo.value, ypo.value);
+        var img = document.getElementById("images");
         const addimage = new Image();
-        addimage.src = this.state.nimages;
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
+        addimage.src = img.value;
         var x = this.state.nimxpos;
         var y= this.state.nimypos;
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
@@ -190,14 +197,19 @@ class CreateLogoScreen extends Component {
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        
-        ctx.fillStyle = this.state.ncolor;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        canvas.height=e.target.value;
+        canvas.width =this.state.nwidth;
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        var co =document.getElementById("colorinput");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        ctx.fillStyle = co.value;
+        ctx.fillText(t.value, xpo.value, ypo.value);
+        var img = document.getElementById("images");
         const addimage = new Image();
-        addimage.src = this.state.nimages;
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
+        addimage.src = img.value;
         var x = this.state.nimxpos;
         var y= this.state.nimypos;
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
@@ -289,25 +301,23 @@ class CreateLogoScreen extends Component {
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
         
     }
-
-    download_img = function(el) {
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        var image = canvas.toDataURL("image/jpg");
-        el.href = image;
-      };
-      DownloadCanvasAsImage=()=>{
-          alert("jhkj");
+    
+    DownloadCanvasAsImage(){
         let downloadLink = document.createElement('a');
-        downloadLink.setAttribute('download', 'CanvasAsImage.png');
-        let canvas = document.getElementById('myCanvas');
-      let dataURL = canvas.toDataURL('image/png');
-      let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
-        downloadLink.setAttribute('href',url);
-        downloadLink.click();
+    downloadLink.setAttribute('download', 'CanvasAsImage.png');
+    var snapshot = document.getElementById('myCanvas'); 
+    var context = snapshot.getContext('2d');
+    let canvas = document.getElementById('myCanvas');
+    snapshot.toBlob(function(blob) {
+      let url = URL.createObjectURL(blob);
+      downloadLink.setAttribute('href', url);
+      downloadLink.click();
+    });
     }
+
+    
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos, images,imxpos,imypos;
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos, images,imxpos,imypos,canvas;
         
         return (
             <Mutation mutation={ADD_LOGO} onCompleted={() => this.props.history.push('/')}>
@@ -352,6 +362,20 @@ class CreateLogoScreen extends Component {
                                     
                                 }}>
                                     <div className="form-group">
+                                        <label htmlFor="width">Width Size:</label>
+                                        <input type="number" id="width" onChange={this.handleWidthChange}
+                                         className="form-control" name="width" ref={node => {
+                                            width = node;
+                                        }} placeholder="width" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="height">Height Size:</label>
+                                        <input type="number" id="height" onChange={this.handleHeightChange}
+                                         className="form-control" name="height" ref={node => {
+                                            height = node;
+                                        }} placeholder="height" />
+                                    </div>
+                                    <div className="form-group">
                                         <label htmlFor="text">Text:</label>
                                         <input type="text" id="textinput"
                                          onChange={this.handleTextChange}
@@ -366,14 +390,14 @@ class CreateLogoScreen extends Component {
                                         <input type="number" id="xpos" onChange={this.handleXposChange}
                                          className="form-control" name="xpos" ref={node => {
                                             xpos = node;
-                                        }} placeholder="xpos" />
+                                        }} placeholder="xpos" defaultValue="0" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="ypos">ypos:</label>
                                         <input type="number" id="ypos" onChange={this.handleYposChange}
                                          className="form-control" name="ypos" ref={node => {
                                             ypos = node;
-                                        }} placeholder="ypos" />
+                                        }} placeholder="ypos" defaultValue="0" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="color">Color:</label>
@@ -431,20 +455,7 @@ class CreateLogoScreen extends Component {
                                             margin = node;
                                         }} placeholder="margin" />
                                     </div>
-                                    <div className="form-group">
-                                        <label htmlFor="width">Width Size:</label>
-                                        <input type="number" id="width" onChange={this.handleWidthChange}
-                                         className="form-control" name="width" ref={node => {
-                                            width = node;
-                                        }} placeholder="width" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="height">Height Size:</label>
-                                        <input type="number" id="height" onChange={this.handleHeightChange}
-                                         className="form-control" name="height" ref={node => {
-                                            height = node;
-                                        }} placeholder="height" />
-                                    </div>
+                                    
                                     <div className="form-group">
                                         <label htmlFor="imxpos">Image width:</label>
                                         <input type="number" id="imxpos" onChange={this.handleImxposChange}
@@ -475,16 +486,24 @@ class CreateLogoScreen extends Component {
                             <div class="col-6">
                                     <html>
                                     <body>
-                                    <canvas id="myCanvas" width={this.state.nwidth} height={this.state.nheight}
-                                     style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
+                                    <canvas id="myCanvas" width={this.state.width} height={this.state.height}
+                                    ref={node => {
+                                        canvas = node; }}
+                                    //width={this.state.nwidth} height={this.state.nheight}
+                                     style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor,
+                                        //width:this.state.nwidth, height:this.state.nheight, 
                                     fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
                                     borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
                                     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
                                     }}> </canvas>
-                                    {/* <a id="download" download="myImage.jpg" href="" onclick="download_img(this);">Download to myImage.jpg</a> */}
-                                    <button onclick={this.DownloadCanvasAsImage}>Download</button>
+                                   
+                                    
                                     </body>
                                     </html>
+                                    
+                                    <button onClick={this.DownloadCanvasAsImage}>Logo</button>
+                                    
+                                   
                             </div>
                             </div>
                         </div>

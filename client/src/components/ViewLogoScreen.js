@@ -71,7 +71,6 @@ class ViewLogoScreen extends Component {
         
     }
     
-    
 
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos,ypos,canvas;
