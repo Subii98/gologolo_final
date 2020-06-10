@@ -276,8 +276,6 @@ class CreateLogoScreen extends Component {
         
     }
     handleImage=(e)=>{
-        
-        
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         
@@ -290,10 +288,24 @@ class CreateLogoScreen extends Component {
         addimage.src = e.target.value;
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
         
-        
-
     }
-    
+
+    download_img = function(el) {
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var image = canvas.toDataURL("image/jpg");
+        el.href = image;
+      };
+      DownloadCanvasAsImage=()=>{
+          alert("jhkj");
+        let downloadLink = document.createElement('a');
+        downloadLink.setAttribute('download', 'CanvasAsImage.png');
+        let canvas = document.getElementById('myCanvas');
+      let dataURL = canvas.toDataURL('image/png');
+      let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
+        downloadLink.setAttribute('href',url);
+        downloadLink.click();
+    }
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos, images,imxpos,imypos;
         
@@ -469,7 +481,8 @@ class CreateLogoScreen extends Component {
                                     borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
                                     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
                                     }}> </canvas>
-                                    
+                                    {/* <a id="download" download="myImage.jpg" href="" onclick="download_img(this);">Download to myImage.jpg</a> */}
+                                    <button onclick={this.DownloadCanvasAsImage}>Download</button>
                                     </body>
                                     </html>
                             </div>

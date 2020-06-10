@@ -61,8 +61,7 @@ class ViewLogoScreen extends Component {
         
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        // canvas.width=wi;
-        // canvas.height=hi;
+        
         ctx.font = f+'px'+ ' Arial';
         ctx.fillStyle=co;
         ctx.fillText(x,y,z);
@@ -71,6 +70,9 @@ class ViewLogoScreen extends Component {
         addimage.onload = function(){ctx.drawImage(addimage,100,100,xpo,ypo)};
         
     }
+    
+    
+
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos,ypos,canvas;
         
@@ -149,6 +151,7 @@ class ViewLogoScreen extends Component {
                                         <dt>Last Updated:</dt>
                                         <dd>{data.logo.lastUpdate}</dd>
                                     </dl>
+                                    
                                     <Mutation mutation={DELETE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push('/')}>
                                         {(removeLogo, { loading, error }) => (
                                             <div>
@@ -186,12 +189,11 @@ class ViewLogoScreen extends Component {
                                     borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
                                     margin:data.logo.margin+"px", borderStyle:"solid",
                                     text: data.logo.text
-                                    }}
-                                    
-                                     ></canvas>
-                                    
+                                    }}></canvas>   
+                                                                   
                                     </body>
                                     </html>
+                                    
                                 </div>  
                                       
                                 </div>

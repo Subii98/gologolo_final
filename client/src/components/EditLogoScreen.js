@@ -420,9 +420,10 @@ class EditLogoScreen extends Component {
         
         
     }
+   
     render() {
         
-        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width,height, xpos, ypos, canvas,images,imxpos,imypos;
+        let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width,height, xpos, ypos, canvas,images,imxpos,imypos,buttons;
         
         return (
             <Query query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
