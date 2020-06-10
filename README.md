@@ -47,7 +47,7 @@ mutation AddLogo{
   width:500,
     xpos:50,
     ypos:80,
-    images:"https://img1.looper.com/img/gallery/things-only-adults-notice-in-spongebob-squarepants/intro-1579624947.jpg",
+    images:#please add url of image as string to test,
     imxpos:150,
     imypos:180
 	) {
@@ -113,7 +113,7 @@ mutation updateLogo{
   width:300,
     xpos:150,
     ypos:320,
-    images:"https://img1.looper.com/img/gallery/things-only-adults-notice-in-spongebob-squarepants/intro-1579624947.jpg",
+    images:"please add url of image as string to test",
     imxpos:140,
     imypos:250
 	) {
