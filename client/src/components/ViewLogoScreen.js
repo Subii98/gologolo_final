@@ -17,6 +17,8 @@ const GET_LOGO = gql`
             borderWidth
             padding
             margin
+            width
+            height
             xpos
             ypos
             images
@@ -54,38 +56,20 @@ class ViewLogoScreen extends Component {
         nimxpos:1,
         nimypos:1
     }
-    // componentDidMount(){
-    //     // var canvas = document.getElementById('myCanvas');
-    //     //  var context = canvas.getContext('2d');
-      
-    //     // //this.context.fillText("sd",20, 20);
-    //     // context.fillText(this.state.ntext,50,80);
-    //     const canvas = ReactDOM.findDOMNode(this.refs.canvas); 
-    //     const context = canvas.getContext('2d');
-    // }
-   
-    // constructor(props) {
-    //     super(props);
-    //     this.canvasRef = React.createRef();
-    //   }
-    //   componentDidUpdate() {
-    //     const canvas = document.getElementById('myCanvas');
-        
-    //     //const canvas = this.canvasRef.current;
-    //     const ctx = canvas.getContext("2d");
-    //     ctx.fillText("ldft",60,80);
-        
-    //   }
     
-    draw(address,xpo,ypo,x,y,z){
+    draw(wi, hi,address,xpo, ypo, x,y,z,f,co){
         
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
+        // canvas.width=wi;
+        // canvas.height=hi;
+        ctx.font = f+'px'+ ' Arial';
+        ctx.fillStyle=co;
         ctx.fillText(x,y,z);
         const addimage = new Image();
-        
         addimage.src = address;
         addimage.onload = function(){ctx.drawImage(addimage,100,100,xpo,ypo)};
+        
     }
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos,ypos,canvas;
@@ -148,10 +132,20 @@ class ViewLogoScreen extends Component {
                                         <dd>{data.logo.padding}</dd>
                                         <dt>Margin:</dt>
                                         <dd>{data.logo.margin}</dd>
-                                        <dt>xpos</dt>
+                                        <dt>Text xpos</dt>
                                         <dd>{data.logo.xpos}</dd>
-                                        <dt>ypos</dt>
+                                        <dt>Text ypos</dt>
                                         <dd>{data.logo.ypos}</dd>
+                                        <dt>Logo width:</dt>
+                                        <dd>{data.logo.width}</dd>
+                                        <dt>Logo height:</dt>
+                                        <dd>{data.logo.height}</dd>
+                                        <dt>Image width</dt>
+                                        <dd>{data.logo.imxpos}</dd>
+                                        <dt>Image ypos</dt>
+                                        <dd>{data.logo.imypos}</dd>
+                                        <dt>Image URL</dt>
+                                        <dd>{data.logo.images}</dd>
                                         <dt>Last Updated:</dt>
                                         <dd>{data.logo.lastUpdate}</dd>
                                     </dl>
@@ -175,24 +169,29 @@ class ViewLogoScreen extends Component {
                                 </div> 
                                 <div class="col-6"> 
                                                 
-                                                <html>
-                                                <body>
-                                                <canvas id="myCanvas" 
-                                                width={data.logo.width} height={data.logo.height}
-                                              
-                                                ref={node => {canvas = node; 
-                                                   
-                                                    this.draw(data.logo.images, data.logo.imxpos, data.logo.imypos, data.logo.text, data.logo.xpos, data.logo.ypos);
-                                            }}
-                                            style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
-                                            borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
-                                            borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
-                                            margin:data.logo.margin+"px", borderStyle:"solid",
-                                            text: data.logo.text
-                                            }} ></canvas>
-                                                
-                                                </body>
-                                                </html>
+                                <html>
+                                    <body>
+                                    
+                                    <canvas id="myCanvas" 
+                                    width={data.logo.width} height={data.logo.height}
+                                    ref={node => {
+                                    canvas = node; 
+                                    
+                                    this.draw(data.logo.width, data.logo.height, data.logo.images, data.logo.imxpos, data.logo.imypos, 
+                                        data.logo.text, data.logo.xpos, data.logo.ypos,data.logo.fontSize,data.logo.color);
+                                    }}
+                                    
+                                    style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, font:data.logo.fontSize+"pt" + " Arial",
+                                    borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
+                                    borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
+                                    margin:data.logo.margin+"px", borderStyle:"solid",
+                                    text: data.logo.text
+                                    }}
+                                    
+                                     ></canvas>
+                                    
+                                    </body>
+                                    </html>
                                 </div>  
                                       
                                 </div>

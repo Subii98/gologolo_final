@@ -95,265 +95,322 @@ class EditLogoScreen extends Component {
         nimypos:1 
     }
    
-    
-    // constructor(props) {
-    //     super(props);
-    //     this.canvas = React.createRef();
-    //     this.context = null // this will be initializaed in componentDidMount()
-    //   }
-    // constructor(props){
-    //     this.inputRef = React.createRef()
-    //   }
-    
-    // constructor(props) {
-    //     super(props);
-    //     this.focusTextInput = this.focusTextInput.bind(this);
-    //     this.focusTextInput.onload=function(){var canvas = document.getElementById("mcanvas");
-    //         var ctx = canvas.getContext("2d");ctx.fillText("Hey there", 10, 10);}
-    //   }
-    //   focusTextInput() {
-    //     // Explicitly focus the text input using the raw DOM API
-    //     this.textInput.focus();
-    //   }
-    
-
-    handleColorChange=(e)=>{
+    handleColorChange(e){
         
         this.setState({
-            ncolor:e.target.value
+            ncolor:e
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var t =document.getElementById("color");
-        ctx.fillStyle = e.target.value;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
-        const addimage = new Image();
-        addimage.src = this.state.nimages;
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
-        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
-        
-    }
-    handleTextChange=(e)=>{
-        this.setState({
-            ntext:e.target.value,
-        })
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        var co =document.getElementById("colorinput");
+        var co =document.getElementById("color");
         var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
         ctx.fillStyle = co.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(t.value, this.state.nxpos, this.state.nypos);
+        ctx.fillText(t.value, xpo, ypo);
         const addimage = new Image();
-        addimage.src = this.state.nimages;
+        addimage.src = img.value;
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
+    }
+    handleTextChange(e){
+        this.setState({
+            ntext:e
+        })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        ctx.fillStyle = co.value;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(t.value, xpo, ypo);
+        const addimage = new Image();
+        addimage.src = img.value;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
-    addText=(e)=>{
-        this.setState({
-            ntext:e.target.value
-        })
-        this.setState({
-            ncolor:e.target.value   
-        })
-        var c = document.getElementById("mCanvas");
-        var ctx = c.getContext("2d");
-        var co =document.getElementById("colorinput");
-        var t =document.getElementById("textinput");
-        ctx.fillStyle = co.value;
-        ctx.fillText(t.value, 150, 100);
-        console.log(t.value);
-    }
-    // handleBackgroundColorChange=(e)=>{
+    // addText=(e)=>{
     //     this.setState({
-    //         nbackgroundColor:e.target.value
+    //         ntext:e.target.value
     //     })
+    //     this.setState({
+    //         ncolor:e.target.value   
+    //     })
+    //     var c = document.getElementById("mCanvas");
+    //     var ctx = c.getContext("2d");
+    //     var co =document.getElementById("color");
+    //     var t =document.getElementById("textinput");
+    //     ctx.fillStyle = co.value;
+    //     ctx.fillText(t.value, 150, 100);
+    //     console.log(t.value);
     // }
+    
     handleBackgroundColorChange(e){
         this.setState({
             nbackgroundColor:e
         })
     }
-    handleFontSizeChange=(e)=>{
+    handleFontSizeChange(e){
         this.setState({
-            nfontSize:e.target.value
+            nfontSize:e
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        ctx.font = e.target.value+'px'+ ' Arial';
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
-        const addimage = new Image();
-        addimage.src = this.state.nimages;
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
-        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
-    }
-    handleBorderColorChange=(e)=>{
-        this.setState({
-            nborderColor:e.target.value
-        })
-    }
-    handleBorderWidthChange=(e)=>{
-        this.setState({
-            nborderWidth:e.target.value
-        })
-    }
-    handleBorderRadiusChange=(e)=>{
-        this.setState({
-            nborderRadius:e.target.value
-        })
-    }
-    handlePaddingChange=(e)=>{
-        this.setState({
-            npadding:e.target.value
-        })
-    }
-    handleMarginChange=(e)=>{
-        this.setState({
-            nmargin:e.target.value
-        })
-    }
-    handleWidthChange=(e)=>{
-        this.setState({
-            nwidth:e.target.value
-        })
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = this.state.ncolor;
+        ctx.font = e+'px'+ ' Arial';
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        ctx.fillStyle = co.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        ctx.fillText(t.value, xpo, ypo);
         const addimage = new Image();
-        addimage.src = this.state.nimages;
+        addimage.src = img.value;
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
-    handleHeightChange=(e)=>{
+    handleBorderColorChange(e){
         this.setState({
-            nheight:e.target.value
+            nborderColor:e
+        })
+    }
+    handleBorderWidthChange(e){
+        this.setState({
+            nborderWidth:e
+        })
+    }
+    handleBorderRadiusChange(e){
+        this.setState({
+            nborderRadius:e
+        })
+    }
+    handlePaddingChange(e){
+        this.setState({
+            npadding:e
+        })
+    }
+    handleMarginChange(e){
+        this.setState({
+            nmargin:e
+        })
+    }
+    handleWidthChange(e){
+        this.setState({
+            nwidth:e
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        
-        ctx.fillStyle = this.state.ncolor;
+        canvas.width=e;
+        var hie = document.getElementById("height");
+        canvas.height=hie.value;
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        ctx.fillStyle = co.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        ctx.fillText(t.value, xpo, ypo);
         const addimage = new Image();
-        addimage.src = this.state.nimages;
+        addimage.src = img.value;
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
-        
     }
-    handleXposChange=(e)=>{
+    handleHeightChange(e){
         this.setState({
-            nxpos:e.target.value
+            nheight:e
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var colorin =document.getElementById("colorinput");
-        ctx.fillStyle = colorin.value;
+        canvas.height=e;
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        var wid = document.getElementById("width");
+        canvas.width=wid.value;
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        ctx.fillStyle = co.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(this.state.ntext, e.target.value, this.state.nypos);
+        ctx.fillText(t.value, xpo, ypo);
         const addimage = new Image();
-        addimage.src = this.state.nimages;
+        addimage.src = img.value;
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
     }
-    handleYposChange=(e)=>{
+    handleXposChange(e){
         this.setState({
-            nypos:e.target.value
+            nxpos:e
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var colorin =document.getElementById("colorinput");
-        ctx.fillStyle = colorin.value;
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        var xpo = e
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        ctx.fillStyle = co.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
-        ctx.fillText(this.state.ntext,this.state.nxpos,e.target.value);
+        ctx.fillText(t.value, xpo, ypo);
         const addimage = new Image();
-        addimage.src = this.state.nimages;
+        addimage.src = img.value;
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var x = this.state.nimxpos;
-        var y= this.state.nimypos;
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
-    handleImxposChange=(e)=>{
+    handleYposChange(e){
         this.setState({
-            nimxpos:e.target.value
+            nypos:e
         })
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        var ypo = e;
+        var img = document.getElementById("images");
+        ctx.fillStyle = co.value;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(t.value, xpo, ypo);
         const addimage = new Image();
-        var x= this.state.nimxpos;
-        var y= this.state.nimypos;
-        addimage.src = this.state.nimages;
-         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
-        
-        var colorin =document.getElementById("colorinput");
-        ctx.fillStyle = colorin.value; 
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
-    }
-    handleImyposChange=(e)=>{
-        this.setState({
-            nimypos:e.target.value
-        })
-        
+        addimage.src = img.value;
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const addimage = new Image();
-        var x= this.state.nimxpos;
-        var y= this.state.nimypos;
-        addimage.src = this.state.nimages;
-         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
-        
-        var colorin =document.getElementById("colorinput");
-        ctx.fillStyle = colorin.value; 
-        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
-        
-    }
-    handleImage=(e)=>{
-        
-        
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        
-        this.setState({
-            nimages:e.target.value
-        })
-        const addimage = new Image();
-        var x= this.state.nimxpos;
-        var y= this.state.nimypos;
-        addimage.src = e.target.value;
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+    }
+    handleImxposChange(e){
+        this.setState({
+            nimxpos:e
+        })
+        
+                var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        ctx.fillStyle = co.value;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(t.value, xpo, ypo);
+        const addimage = new Image();
+        addimage.src = img.value;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+    }
+    handleImyposChange(e){
+        this.setState({
+            nimypos:e
+        })
         
         
+        // const addimage = new Image();
+        // var x= this.state.nimxpos;
+        // var y= this.state.nimypos;
+        // addimage.src = this.state.nimages;
+        //  addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
+        // var colorin =document.getElementById("color");
+        // ctx.fillStyle = colorin.value; 
+        // ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
 
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = co.value;
+        ctx.fillText(t.value, xpo, ypo);
+        const addimage = new Image();
+        addimage.src = img.value;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
     }
-    draw(address,xpo, ypo, x,y,z){
+    handleImage(e){
+      
+        this.setState({
+            nimages:e
+        })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var co =document.getElementById("color");
+        var t =document.getElementById("textinput");
+        var xpo = document.getElementById("xpos");
+        var ypo = document.getElementById("ypos");
+        var img = document.getElementById("images");
+        var fo = document.getElementById("fontSize");
+        ctx.font = fo.value+'px'+ ' Arial';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = co.value;
+        ctx.fillText(t.value, xpo, ypo);
+        const addimage = new Image();
+        addimage.src = img.value;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = document.getElementById("imxpos");
+        var y= document.getElementById("imypos");
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
+    }
+    draw(address,xpo, ypo, x,y,z,f){
         
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var colortext =document.getElementById("colorinput");
+        var colortext =document.getElementById("color");
+        ctx.font = f+'px'+ ' Arial';
         ctx.fillStyle=colortext.value;
         ctx.fillText(x,y,z);
         const addimage = new Image();
@@ -387,7 +444,10 @@ class EditLogoScreen extends Component {
                         width:data.logo.width + "px",
                         height: data.logo.height +"px",
                         xpos:data.logo.xpos + "px",
-                        ypos:data.logo.ypos + "px"
+                        ypos:data.logo.ypos + "px",
+                        images:data.logo.images.value,
+                        imxpos:data.logo.imxpos.value,
+                        imypos:data.logo.imypos.value
                         }
                     
                     return (
@@ -429,15 +489,14 @@ class EditLogoScreen extends Component {
                                                 ypos.value="";
                                                 images.value="";
                                                 imxpos.value="";
-                                                imxpos.value="";
+                                                imypos.value="";
                                             }}>
                                                 <div className="form-group">
                                                     <label htmlFor="text">Text:</label>
                                                     <input type="text" id="textinput"
-                                                    onChange={this.handleTextChange}
-                                                    // onChange={() => {data.logo.text = text.value; this.setState({
-                                                    //     ntext:text.value,    
-                                                    // }) }}  
+                                                    // onChange={this.handleTextChange}
+                                                    onChange={() => {data.logo.text = text.value;    this.handleTextChange(text.value); 
+                                                    } }  
                                                     className="form-control" name="text" ref={node => {
                                                         text = node;  this.state.text = text;
                                                         //data.logo.text=node.value;
@@ -445,11 +504,10 @@ class EditLogoScreen extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="xpos">Xpos:</label>
-                                                    <input type="text" 
+                                                    <input type="text" id="xpos"
                                                     //onChange={this.handleHeightChange}
-                                                    // onChange={() => {data.logo.height = height.value; 
-                                                    // this.setState({nheight:this.value});
-                                                    // this.setState({height: this.value})}} 
+                                                    onChange={() => {data.logo.xpos = xpos.value; 
+                                                    this.handleXposChange(xpos.value)}} 
                                                     className="form-control" name="xpos" ref={node => {
                                                         xpos = node; 
                                                        // data.logo.height=height.value;
@@ -457,11 +515,10 @@ class EditLogoScreen extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="ypos">Ypos:</label>
-                                                    <input type="text" 
+                                                    <input type="text" id = "ypos"
                                                     //onChange={this.handleHeightChange}
-                                                    // onChange={() => {data.logo.height = height.value; 
-                                                    // this.setState({nheight:this.value});
-                                                    // this.setState({height: this.value})}} 
+                                                    onChange={() => {data.logo.ypos = ypos.value; 
+                                                        this.handleYposChange(ypos.value)}} 
                                                     className="form-control" name="ypos" ref={node => {
                                                         ypos = node; 
                                                        // data.logo.height=height.value;
@@ -469,14 +526,13 @@ class EditLogoScreen extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="color" >Color:</label>
-                                                    <input type="color" id="colorinput"
-                                                    onChange={this.handleColorChange} 
-                                                    // onChange={() => {data.logo.color = color.value; this.setState({ncolor:this.value});
-                                                    // this.setState({textColor: this.value})}} 
+                                                    <input type="color" id="color"
+                                                     
+                                                    onChange={() => {data.logo.color = color.value; this.handleColorChange(color.value)}} 
                                                     className="form-control" name="color" ref={node => {
                                                         color = node ; 
                                                         //data.logo.color = node.value;
-                                                    }} placeholder="Color" defaultValue={data.logo.color}/> 
+                                                    }} placeholder="color" defaultValue={data.logo.color}/> 
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="backgroundColor">Background Color:</label>
@@ -492,11 +548,9 @@ class EditLogoScreen extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="fontSize">Font Size:</label>
-                                                    <input type="text"
-                                                    onChange={this.handleFontSizeChange}
-                                                    //  onChange={() => {data.logo.fontSize = fontSize.value; 
-                                                    // this.setState({fontSize: this.value}); 
-                                                    // this.setState({nfontSize:this.value})}
+                                                    <input type="text" id="fontSize"
+                                                    // onChange={this.handleFontSizeChange}
+                                                     onChange={() => {data.logo.fontSize = fontSize.value; this.handleFontSizeChange(fontSize.value)}}
                                                      className="form-control" name="fontSize" ref={node => {
                                                         fontSize = node;
                                                         //data.logo.fontSize=fontSize.value;
@@ -505,10 +559,9 @@ class EditLogoScreen extends Component {
                                                 <div className="form-group">
                                                     <label htmlFor="borderColor">Border Color:</label>
                                                     <input type="color" 
-                                                    onChange={this.handleBorderColorChange}
-                                                    // onChange={() => {data.logo.borderColor = borderColor.value; 
-                                                    // this.setState({nborderColor:this.value});
-                                                    // this.setState({borderColor: this.value})}} 
+                                                    // onChange={this.handleBorderColorChange}
+                                                    onChange={() => {data.logo.borderColor = borderColor.value; 
+                                                   this.handleBorderColorChange(borderColor.value)}} 
                                                     className="form-control" id="borderColor" name="borderColor" ref={node => {
                                                         borderColor = node;
                                                         //data.logo.borderColor= borderColor.value;
@@ -517,10 +570,9 @@ class EditLogoScreen extends Component {
                                                 <div className="form-group">
                                                     <label htmlFor="borderRadius">Border Radius:</label>
                                                     <input type="text" 
-                                                     onChange={this.handleBorderRadiusChange}
-                                                    // onChange={() => {data.logo.borderRadius = borderRadius.value; 
-                                                    // this.setState({nborderRadius:this.value});
-                                                    // this.setState({borderRadius: this.value})}} 
+                                                    //  onChange={this.handleBorderRadiusChange}
+                                                    onChange={() => {data.logo.borderRadius = borderRadius.value; 
+                                                   this.handleBorderRadiusChange(borderRadius.value)}} 
                                                      className="form-control" name="borderRadius" ref={node => {
                                                         borderRadius = node; 
                                                         //data.logo.borderRadius=borderRadius.value;
@@ -529,22 +581,19 @@ class EditLogoScreen extends Component {
                                                 <div className="form-group">
                                                     <label htmlFor="borderWidth">Border Width:</label>
                                                     <input type="text" 
-                                                    onChange={this.handleBorderWidthChange}
-                                                    // onChange={() => {data.logo.borderWidth = borderWidth.value;
-                                                    // this.setState({nborderWidth:this.value});
-                                                    // this.setState({borderWidth: this.value})}} 
+                                                    // onChange={this.handleBorderWidthChange}
+                                                    onChange={() => {data.logo.borderWidth = borderWidth.value;
+                                                    this.handleBorderWidthChange(borderWidth.value)}} 
                                                     className="form-control" name="borderWidth" ref={node => {
                                                         borderWidth = node; 
-                                                        //data.logo.borderWidth=borderWidth.value;
                                                     }} placeholder="Border Width" defaultValue={data.logo.borderWidth} />
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="padding">Padding:</label>
                                                     <input type="text" 
-                                                    onChange={this.handlePaddingChange}
-                                                    // onChange={() => {data.logo.padding = padding.value; 
-                                                    // this.setState({npadding:this.value});
-                                                    // this.setState({padding: this.value})}} 
+                                                    // onChange={this.handlePaddingChange}
+                                                    onChange={() => {data.logo.padding = padding.value; 
+                                                    this.handlePaddingChange(padding.value)}} 
                                                     className="form-control" name="padding" ref={node => {
                                                         padding = node; 
                                                        // data.logo.padding = padding.value;
@@ -553,10 +602,10 @@ class EditLogoScreen extends Component {
                                                 <div className="form-group">
                                                     <label htmlFor="margin">Margin:</label>
                                                     <input type="text" 
-                                                     onChange={this.handleMarginChange}
-                                                    // onChange={() => {data.logo.margin = margin.value;
-                                                    // this.setState({nmargin:this.value});
-                                                    // this.setState({margin: this.value})}} 
+                                                    //  onChange={this.handleMarginChange}
+                                                    onChange={() => {data.logo.margin = margin.value;
+                                                    this.handleMarginChange(margin.value)
+                                                    }} 
                                                     className="form-control" name="margin" ref={node => {
                                                         margin = node; 
                                                        // data.logo.margin = margin.value;
@@ -564,47 +613,48 @@ class EditLogoScreen extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="width">Width:</label>
-                                                    <input type="text" 
-                                                    onChange={this.handleWidthChange}
-                                                    // onChange={() => {data.logo.width = width.value;
-                                                    // this.setState({nwidth:this.value});
-                                                    // this.setState({width: this.value})}} 
+                                                    <input type="text" id="width"
+                                                    // onChange={this.handleWidthChange}
+                                                    onChange={() => {data.logo.width = width.value;
+                                                    this.handleWidthChange(width.value)}} 
                                                     className="form-control" name="width" ref={node => {
                                                         width = node; 
-                                                       // data.logo.width=width.value;
-                                                    }} placeholder="Width" defaultValue={data.logo.width} />
+                                                    }} placeholder="width" defaultValue={data.logo.width} />
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="height">Height:</label>
                                                     <input type="text" 
-                                                    onChange={this.handleHeightChange}
-                                                    // onChange={() => {data.logo.height = height.value; 
-                                                    // this.setState({nheight:this.value});
-                                                    // this.setState({height: this.value})}} 
-                                                    className="form-control" name="height" ref={node => {
+                                                    // onChange={this.handleHeightChange}
+                                                    onChange={() => {data.logo.height = height.value; 
+                                                    this.handleHeightChange(height.value)}} 
+                                                    className="form-control" id="height" name="height" ref={node => {
                                                         height = node; 
                                                        // data.logo.height=height.value;
-                                                    }} placeholder="Height" defaultValue={data.logo.height} />
+                                                    }} placeholder="height" defaultValue={data.logo.height} />
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="imxpos">Image width:</label>
-                                                    <input type="number" id="imxpos" onChange={this.handleImxposChange}
+                                                    <input type="number" id="imxpos" onChange={() => {data.logo.imxpos = imxpos.value; 
+                                                    this.handleImxposChange(imxpos.value)}} 
                                                     className="form-control" name="imxpos" ref={node => {
                                                     imxpos = node;
                                                      }} placeholder="nimxpos" defaultValue={data.logo.imxpos}/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="imypos">Image height:</label>
-                                                    <input type="number" id="imypos" onChange={this.handleImyposChange}
+                                                    <input type="number" id="imypos" onChange={() => {data.logo.imypos = imypos.value; 
+                                                    this.handleImyposChange(imypos.value)}} 
                                                     className="form-control" name="imypos" ref={node => {
                                                     imypos = node;
                                                     }} placeholder="imypos" defaultValue={data.logo.imypos}/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="images">Image: </label>
-                                                    <input type="text" id="images" name="images" ref={
+                                                    <input type="text" id="images" onChange={() => {data.logo.images = images.value; 
+                                                    this.handleImage(images.value)}}
+                                                    className="form-control" name="images" ref={
                                                     node=> { images = node;}}
-                                                    onChange = {this.handleImage} defaultValue={data.logo.images}/>
+                                                 defaultValue={data.logo.images}/>
                                                 </div>
                                                 <button type="submit" className="btn btn-success">Submit</button>
                                             </form>
@@ -621,20 +671,16 @@ class EditLogoScreen extends Component {
                                     ref={node => {
                                     canvas = node; 
                                     
-                                    this.draw(data.logo.images, data.logo.imxpos, data.logo.imypos, data.logo.text, data.logo.xpos, data.logo.ypos);
+                                    this.draw(data.logo.images, data.logo.imxpos, data.logo.imypos, data.logo.text, data.logo.xpos, data.logo.ypos,data.logo.fontSize);
                                     }}
                                     
-                                    style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
+                                    style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, font:data.logo.fontSize+"pt" + " Arial",
                                     borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
                                     borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
                                     margin:data.logo.margin+"px", borderStyle:"solid",
                                     text: data.logo.text
                                     }}
-                                    // style={{color:this.state.ncolor, backgroundColor:this.state.nbackgroundColor, 
-                                    //     fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
-                                    //     borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
-                                    //     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
-                                    //     }}
+                                    
                                      ></canvas>
                                     
                                     </body>
