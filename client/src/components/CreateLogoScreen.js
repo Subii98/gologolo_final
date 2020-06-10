@@ -66,8 +66,8 @@ class CreateLogoScreen extends Component {
         nxpos :10,
         nypos : 10,
         nimages:"",
-        nimxpos:1,
-        nimypos:1
+        nimxpos:20,
+        nimypos:20
     }
     
     componentDidMount() {
@@ -88,6 +88,13 @@ class CreateLogoScreen extends Component {
         ctx.fillStyle = e.target.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
         
     }
     handleTextChange=(e)=>{
@@ -103,7 +110,13 @@ class CreateLogoScreen extends Component {
         ctx.fillStyle = co.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
         ctx.fillText(t.value, this.state.nxpos, this.state.nypos);
-        
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
    
     handleBackgroundColorChange=(e)=>{
@@ -120,6 +133,13 @@ class CreateLogoScreen extends Component {
         ctx.font = e.target.value+'px'+ ' Arial';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
     handleBorderColorChange=(e)=>{
         this.setState({
@@ -150,11 +170,37 @@ class CreateLogoScreen extends Component {
         this.setState({
             nwidth:e.target.value
         })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = this.state.ncolor;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
+    
     handleHeightChange=(e)=>{
         this.setState({
             nheight:e.target.value
         })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        
+        ctx.fillStyle = this.state.ncolor;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
     
     handleXposChange=(e)=>{
@@ -164,11 +210,16 @@ class CreateLogoScreen extends Component {
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         var colorin =document.getElementById("colorinput");
-        var textin =document.getElementById("textinput");
-        var yin =document.getElementById("ypos");
         ctx.fillStyle = colorin.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
         ctx.fillText(this.state.ntext, e.target.value, this.state.nypos);
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
     handleYposChange=(e)=>{
         this.setState({
@@ -180,36 +231,67 @@ class CreateLogoScreen extends Component {
         ctx.fillStyle = colorin.value;
         ctx.clearRect(0, 0, canvas.width, canvas.height);   
         ctx.fillText(this.state.ntext,this.state.nxpos,e.target.value);
+        const addimage = new Image();
+        addimage.src = this.state.nimages;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var x = this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
     }
     handleImxposChange=(e)=>{
         this.setState({
             nimxpos:e.target.value
         })
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const addimage = new Image();
+        var x= this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.src = this.state.nimages;
+         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
+        var colorin =document.getElementById("colorinput");
+        ctx.fillStyle = colorin.value; 
+        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
     }
     handleImyposChange=(e)=>{
         this.setState({
             nimypos:e.target.value
         })
+        
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const addimage = new Image();
+        var x= this.state.nimxpos;
+        var y= this.state.nimypos;
+        addimage.src = this.state.nimages;
+         addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
+        var colorin =document.getElementById("colorinput");
+        ctx.fillStyle = colorin.value; 
+        ctx.fillText(this.state.ntext,this.state.nxpos,this.state.nypos);
+        
     }
     handleImage=(e)=>{
         
-        const addimage = new Image();
-        addimage.src = URL.createObjectURL(e.target.files[0]);
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
+        
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        
         this.setState({
-            nimages:URL.createObjectURL(e.target.files[0])
+            nimages:e.target.value
         })
+        const addimage = new Image();
         var x= this.state.nimxpos;
         var y= this.state.nimypos;
-        addimage.onload = function(){ctx.drawImage(addimage,20,20,x,y)};
-        // const addimage = new Image(); 
-        // addimage.src =e.target.files[0];
-        // var c = document.getElementById("myCanvas");
-        // var ctx = c.getContext("2d");
-        // var x= this.state.nimxpos;
-        // var y= this.state.nimypos;
-        // addimage.onload = function(){ctx.drawImage(addimage,20,20,x,y)};
+        addimage.src = e.target.value;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,x,y)};
+        
+        
+
     }
     
     render() {
@@ -349,7 +431,7 @@ class CreateLogoScreen extends Component {
                                         <input type="number" id="height" onChange={this.handleHeightChange}
                                          className="form-control" name="height" ref={node => {
                                             height = node;
-                                        }} placeholder="margin" />
+                                        }} placeholder="height" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="imxpos">Image width:</label>
@@ -367,7 +449,7 @@ class CreateLogoScreen extends Component {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="images">Image: </label>
-                                        <input type="file" id="images" name="images" ref={
+                                        <input type="text" id="images" name="images" ref={
                                             node=> { images = node;}}
                                             onChange = {this.handleImage}
                                                 />
@@ -386,7 +468,6 @@ class CreateLogoScreen extends Component {
                                     fontSize:this.state.nfontSize+"pt", borderColor:this.state.nborderColor, 
                                     borderRadius:this.state.nborderRadius+"px",borderWidth:this.state.nborderWidth+"px",
                                     padding:this.state.npadding+"px",margin:this.state.nmargin+"px", borderStyle:"solid",
-                                    // width:this.state.nwidth, height:this.state.nheight
                                     }}> </canvas>
                                     
                                     </body>

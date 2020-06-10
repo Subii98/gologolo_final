@@ -179,7 +179,6 @@ var mutation = new GraphQLObjectType({
                     fontSize: {
                         type: new GraphQLNonNull(GraphQLInt)
                     },
-                    
                     backgroundColor: {
                         type: new GraphQLNonNull(GraphQLString)
                     },

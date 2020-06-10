@@ -17,6 +17,11 @@ const GET_LOGO = gql`
             borderWidth
             padding
             margin
+            xpos
+            ypos
+            images
+            imxpos
+            imypos
             lastUpdate
         }
     }
@@ -33,17 +38,21 @@ const DELETE_LOGO = gql`
 class ViewLogoScreen extends Component {
     state={
         ncolor:"black",
-        ntext: "gologolo",
+        ntext: "",
         nfontSize: 10,
-        nbackgroundColor: "blue",
+        nbackgroundColor: "black",
         nborderColor: "black",
         nborderRadius: 1,
         nborderWidth: 1,
         npadding: 1,
         nmargin: 1,
-        nwidth: 1,
-        nheight:1,
-        //ntextList :[]
+        nwidth: 300,
+        nheight:200,
+        nxpos :10,
+        nypos : 10,
+        nimages:"",
+        nimxpos:1,
+        nimypos:1
     }
     // componentDidMount(){
     //     // var canvas = document.getElementById('myCanvas');
@@ -68,10 +77,19 @@ class ViewLogoScreen extends Component {
         
     //   }
     
-    
+    draw(address,xpo,ypo,x,y,z){
+        
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillText(x,y,z);
+        const addimage = new Image();
+        
+        addimage.src = address;
+        addimage.onload = function(){ctx.drawImage(addimage,100,100,xpo,ypo)};
+    }
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos,ypos,canvas;
-        //var thisIsMyCopy = ' <canvas   id= "myCanvas"  width="680" height="400" style="background-color:black; border-style:solid;border-color:rgb(255,255,0);"></canvas>';
+        
         return (
             
             <Query pollInterval={500} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
@@ -91,7 +109,9 @@ class ViewLogoScreen extends Component {
                         padding: data.logo.padding + "px",
                         borderStyle:"solid",
                         width:data.logo.width + "px",
-                        height: data.logo.height +"px"
+                        height: data.logo.height +"px",
+                        xpos:data.logo.xpos + "px",
+                        ypos:data.logo.ypos + "px"
                         }
 
                     return (
@@ -109,93 +129,6 @@ class ViewLogoScreen extends Component {
                                 <div class="row"> 
                                 <div class="col-6"> 
                                 <div className="panel-body">
-                                {/* <div className="form-group">
-                                                    <label htmlFor="text">Text:</label>
-                                                    <input type="text" id="textinput"
-                                                    className="form-control" name="text" ref={node => { text = node;    
-                                                    }} placeholder="Text" defaultValue={data.logo.text} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="xpos">Xpos:</label>
-                                                    <input type="text"  className="form-control" name="xpos" ref={node => {xpos = node; }} placeholder="xpos" defaultValue={data.logo.xpos} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="ypos">Ypos:</label>
-                                                    <input type="text" 
-                                                    className="form-control" name="ypos" ref={node => { ypos = node; }} placeholder="ypos" defaultValue={data.logo.ypos} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="color" >Color:</label>
-                                                    <input type="color" id="colorinput"
-                                                    className="form-control" name="color" ref={node => {
-                                                        color = node ; 
-                                                    }} placeholder="Color" defaultValue={data.logo.color}/> 
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="backgroundColor">Background Color:</label>
-                                                    <input type="color" id="backColor"
-                                                        className="form-control" name="backgroundColor" ref={node => {
-                                                        backgroundColor = node;   
-                                                    }} placeholder="backgroundColor" defaultValue={data.logo.backgroundColor} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="fontSize">Font Size:</label>
-                                                    <input type="text"
-                                                     className="form-control" name="fontSize" ref={node => {fontSize = node;
-                                                    }} placeholder="Font Size" defaultValue={data.logo.fontSize} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="borderColor">Border Color:</label>
-                                                    <input type="color" 
-                                                    className="form-control" name="borderColor" ref={node => {
-                                                        borderColor = node;
-                                                    }} placeholder="borderColor" defaultValue={data.logo.borderColor} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="borderRadius">Border Radius:</label>
-                                                    <input type="text" 
-                                                     className="form-control" name="borderRadius" ref={node => {borderRadius = node; 
-                                                    }} placeholder="Border Radius" defaultValue={data.logo.borderRadius} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="borderWidth">Border Width:</label>
-                                                    <input type="text" 
-                                                
-                                                    className="form-control" name="borderWidth" ref={node => {
-                                                        borderWidth = node; 
-                                                        
-                                                    }} placeholder="Border Width" defaultValue={data.logo.borderWidth} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="padding">Padding:</label>
-                                                    <input type="text" 
-                                                    className="form-control" name="padding" ref={node => {
-                                                        padding = node; 
-                                                    }} placeholder="Padding" defaultValue={data.logo.padding} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="margin">Margin:</label>
-                                                    <input type="text" 
-                                                    className="form-control" name="margin" ref={node => {
-                                                        margin = node; 
-                                                    }} placeholder="Margin" defaultValue={data.logo.margin} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="width">Width:</label>
-                                                    <input type="text"  
-                                                    className="form-control" name="width" ref={node => {
-                                                        width = node; 
-                                                       
-                                                    }} placeholder="Width" defaultValue={data.logo.width} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="height">Height:</label>
-                                                    <input type="text" 
-                                                    className="form-control" name="height" ref={node => {
-                                                        height = node; 
-                                                    }} placeholder="Height" defaultValue={data.logo.height} />
-                                                </div> */}
-
                                     <dl>
                                         <dt>Text:</dt>
                                         <dd>{data.logo.text}</dd>
@@ -215,6 +148,10 @@ class ViewLogoScreen extends Component {
                                         <dd>{data.logo.padding}</dd>
                                         <dt>Margin:</dt>
                                         <dd>{data.logo.margin}</dd>
+                                        <dt>xpos</dt>
+                                        <dd>{data.logo.xpos}</dd>
+                                        <dt>ypos</dt>
+                                        <dd>{data.logo.ypos}</dd>
                                         <dt>Last Updated:</dt>
                                         <dd>{data.logo.lastUpdate}</dd>
                                     </dl>
@@ -237,24 +174,22 @@ class ViewLogoScreen extends Component {
                                 </div>
                                 </div> 
                                 <div class="col-6"> 
-                                                <div style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
-                                                borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
-                                                borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
-                                                margin:data.logo.margin+"px", borderStyle:"solid",
-                                                text: data.logo.text
-                                                }}>
-                                                    {data.logo.text}
-                                                    
-                                                </div>
                                                 
                                                 <html>
                                                 <body>
-                                                <canvas id="myCanvas" ref={node => {canvas = node} } style={styles}> </canvas>
-                                                {/* ref={node => {
-                                                    canvas = node; 
-                                                    var ctx = canvas.getContext("2d");
-                                                    ctx.fillText("sd",12,13); }}
-                                                  */}
+                                                <canvas id="myCanvas" 
+                                                width={data.logo.width} height={data.logo.height}
+                                              
+                                                ref={node => {canvas = node; 
+                                                   
+                                                    this.draw(data.logo.images, data.logo.imxpos, data.logo.imypos, data.logo.text, data.logo.xpos, data.logo.ypos);
+                                            }}
+                                            style={{color:data.logo.color, backgroundColor:data.logo.backgroundColor, fontSize:data.logo.fontSize+"pt",
+                                            borderColor:data.logo.borderColor, borderRadius:data.logo.borderRadius+"px",
+                                            borderWidth:data.logo.borderWidth+"px",padding:data.logo.padding+"px",
+                                            margin:data.logo.margin+"px", borderStyle:"solid",
+                                            text: data.logo.text
+                                            }} ></canvas>
                                                 
                                                 </body>
                                                 </html>
