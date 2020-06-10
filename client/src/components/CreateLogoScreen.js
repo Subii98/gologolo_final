@@ -304,17 +304,16 @@ class CreateLogoScreen extends Component {
     
     DownloadCanvasAsImage(){
         let downloadLink = document.createElement('a');
-    downloadLink.setAttribute('download', 'CanvasAsImage.png');
-    var snapshot = document.getElementById('myCanvas'); 
-    var context = snapshot.getContext('2d');
-    let canvas = document.getElementById('myCanvas');
-    snapshot.toBlob(function(blob) {
-      let url = URL.createObjectURL(blob);
-      downloadLink.setAttribute('href', url);
+        downloadLink.setAttribute('download', 'CanvasAsImage.png');
+        var snapshot = document.getElementById('myCanvas'); 
+        var context = snapshot.getContext('2d');
+        let canvas = document.getElementById('myCanvas');
+        snapshot.toBlob(function(blob) {
+        let url = URL.createObjectURL(blob);
+        downloadLink.setAttribute('href', url);
       downloadLink.click();
     });
     }
-
     
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderRadius, borderWidth, padding, margin, width, height, xpos, ypos, images,imxpos,imypos,canvas;
@@ -502,7 +501,7 @@ class CreateLogoScreen extends Component {
                                     </html>
                                     
                                     <button onClick={this.DownloadCanvasAsImage}>Logo</button>
-                                    
+                                   
                                    
                             </div>
                             </div>
